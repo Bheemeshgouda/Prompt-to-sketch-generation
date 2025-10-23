@@ -1,0 +1,30 @@
+/criminal-composite-generator
+│
+├── app.py
+├── image_generator.py
+├── database.py
+├── requirements.txt
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── script.js
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── login.html
+│   ├── composite.html
+│   ├── cases.html
+│   └── register.html
+└── config.py
+
+
+
+
+Example Prompt 1:-
+
+highly detailed police composite sketch, oval face, pointed chin, short receding dark brown hair, high forehead, thick straight eyebrows, almond-shaped close-set dark brown eyes, long hooked nose, hollow cheeks, thin downturned lips, cleft chin, angular jawline, vertical scar on left cheek (2 inch), wire-frame glasses, stern expression, male, late 40s, black and white pencil line drawing, front view, clean strong lines, sharp contours, forensic sketch, solid black outlines, no shading, white background
+
+Example Prompt 2:-
+
+"Forensic sketch: Oval face, pointed chin, dark brown short receding hair, high forehead, thick straight eyebrows, almond-shaped close-set dark brown eyes, long hooked nose, hollow cheeks, thin downturned lips, cleft chin, angular jawline, 2-inch vertical left cheek scar, wire-frame glasses, late 40s, stern expression. Black and white line drawing, no shading, front view, clean precise lines."

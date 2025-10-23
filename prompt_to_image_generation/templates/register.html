@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Register User{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-box">
+        <h2><i class="fas fa-user-plus"></i> Register New Officer</h2>
+        
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="badge_number">Badge Number</label>
+                <input type="text" id="badge_number" name="badge_number" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role" required>
+                    <option value="officer">Officer</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-register">
+                <i class="fas fa-save"></i> Register User
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

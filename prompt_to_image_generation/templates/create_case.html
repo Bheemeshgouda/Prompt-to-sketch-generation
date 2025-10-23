@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Create New Case{% endblock %}
+
+{% block content %}
+<div class="case-form-container">
+    <h2><i class="fas fa-folder-plus"></i> Create New Case</h2>
+    
+    <form method="POST" action="{{ url_for('create_case') }}">
+        <div class="form-group">
+            <label for="case_number">Case Number</label>
+            <input type="text" id="case_number" name="case_number" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Case Description</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="incident_date">Incident Date</label>
+                <input type="date" id="incident_date" name="incident_date" required>
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Create Case
+            </button>
+            <a href="{{ url_for('index') }}" class="btn btn-cancel">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

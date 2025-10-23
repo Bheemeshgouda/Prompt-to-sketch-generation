@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Create Composite{% endblock %}
+
+{% block content %}
+<div class="composite-form-container">
+    <div class="case-info">
+        <h2><i class="fas fa-user-edit"></i> Create Composite for Case #{{ case.case_number }}</h2>
+        <p><strong>Description:</strong> {{ case.description }}</p>
+    </div>
+    
+    <form method="POST" action="{{ url_for('create_composite', case_id=case.id) }}">
+        <div class="form-group">
+            <label for="description">Suspect Description</label>
+            <textarea id="description" name="description" required 
+                      placeholder="Describe the suspect's facial features in detail (e.g., male, late 30s, square jaw, bushy eyebrows, scar on left cheek...)"></textarea>
+            <small class="form-text">Be as detailed as possible for better results</small>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-magic"></i> Generate Composite
+            </button>
+            <a href="{{ url_for('view_case', case_id=case.id) }}" class="btn btn-cancel">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

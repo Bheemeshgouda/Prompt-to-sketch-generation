@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Case #{{ case.case_number }}{% endblock %}
+
+{% block content %}
+<div class="case-view-container">
+    <!-- Case Header with action -->
+    <div class="case-header">
+        <h2><i class="fas fa-folder"></i> Case #{{ case.case_number }}</h2>
+        <div class="case-actions">
+            <a href="{{ url_for('create_composite', case_id=case.id) }}" class="btn btn-primary" aria-label="Create new composite sketch for this case">
+                <i class="fas fa-user-edit"></i> New Composite
+            </a>
+        </div>
+    </div>
+
+    <!-- Case Details -->
+    <div class="case-details">
+        <div class="detail-group">
+            <h3><i class="fas fa-info-circle"></i> Case Details</h3>
+            <p><strong>Description:</strong> {{ case.description or 'N/A' }}</p>
+            <p><strong>Location:</strong> {{ case.location or 'N/A' }}</p>
+            <p><strong>Incident Date:</strong> {{ case.incident_date.strftime('%Y-%m-%d') if case.incident_date else 'N/A' }}</p>
+            <p><strong>Created By:</strong> {{ case.full_name or 'Unknown' }} on {{ case.created_at.strftime('%Y-%m-%d') if case.created_at else 'N/A' }}</p>
+        </div>
+    </div>
+
+    <!-- Composite Sketches Section -->
+    <div class="case-composites">
+        <h3><i class="fas fa-user-secret"></i> Composite Sketches</h3>
+
+        {% if composites %}
+        <div class="composites-grid">
+            {% for composite in composites %}
+            <div class="composite-card {% if composite.is_accurate %}accurate{% endif %}" role="group" aria-label="Composite sketch created on {{ composite.created_at.strftime('%Y-%m-%d') }}">
+                <div class="composite-image">
+                    <img src="{{ url_for('static', filename='generated/' + composite.image_path) }}" 
+                         alt="Composite sketch for case {{ case.case_number }}" loading="lazy" />
+                    {% if composite.is_accurate %}
+                    <div class="accurate-badge" title="Marked as verified accurate">
+                        <i class="fas fa-check-circle"></i> Verified
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="composite-info">
+                    <p class="composite-date" title="Date created">{{ composite.created_at.strftime('%Y-%m-%d') if composite.created_at else 'N/A' }}</p>
+                    <p class="composite-author" title="Created by">By: {{ composite.full_name or "Unknown" }}</p>
+                </div>
+                <div class="composite-actions">
+                    <a href="{{ url_for('view_composite', composite_id=composite.id) }}" class="btn btn-view" aria-label="View composite sketch details">
+                        <i class="fas fa-eye"></i> View
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-composites">
+            <p>No composite sketches have been created for this case yet.</p>
+            <a href="{{ url_for('create_composite', case_id=case.id) }}" class="btn btn-primary" aria-label="Create the first composite sketch for this case">
+                <i class="fas fa-user-edit"></i> Create First Composite
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

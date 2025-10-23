@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Case Management{% endblock %}
+
+{% block content %}
+<div class="cases-container">
+    <div class="cases-header">
+        <h2><i class="fas fa-folder-open"></i> Case Management</h2>
+        <a href="{{ url_for('create_case') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> New Case
+        </a>
+    </div>
+    
+    <div class="search-filter">
+        <form method="GET" action="{{ url_for('cases') }}">
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" name="search" placeholder="Search cases..." value="{{ request.args.get('search', '') }}">
+                </div>
+                <button type="submit" class="btn btn-search">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    {% if cases %}
+    <div class="cases-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Case Number</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th>Incident Date</th>
+                    <th>Created By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for case in cases %}
+                <tr>
+                    <td><strong>{{ case.case_number }}</strong></td>
+                    <td>{{ case.description[:50] }}{% if case.description|length > 50 %}...{% endif %}</td>
+                    <td>{{ case.location }}</td>
+                    <td>{{ case.incident_date.strftime('%Y-%m-%d') if case.incident_date else 'N/A' }}</td>
+                    <td>{{ case.full_name }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('view_case', case_id=case.id) }}" class="btn btn-view">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                        <a href="{{ url_for('create_composite', case_id=case.id) }}" class="btn btn-create">
+                            <i class="fas fa-user-edit"></i> New Composite
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="no-cases">
+        <p>No cases found. <a href="{{ url_for('create_case') }}">Create a new case</a> to get started.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

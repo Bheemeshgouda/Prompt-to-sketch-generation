@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Composite - Case #{{ composite.case_number }}{% endblock %}
+
+{% block content %}
+<div class="composite-view-container">
+    <div class="composite-header">
+        <h2>
+            <i class="fas fa-user-secret"></i> Composite Sketch - Case #{{ composite.case_number }}
+            {% if composite.is_accurate %}
+                <span class="badge badge-accurate">Verified</span>
+            {% endif %}
+        </h2>
+        
+        <div class="composite-meta">
+            <p><strong>Created by:</strong> {{ composite.full_name }} (Badge #{{ composite.badge_number }})</p>
+            <p><strong>Created on:</strong> {{ composite.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+        </div>
+    </div>
+    
+    <div class="composite-content">
+        <div class="sketch-container">
+            <div class="sketch-image-wrapper">
+                <img src="{{ url_for('static', filename='generated/' + composite.image_path) }}" 
+                     alt="Criminal Composite Sketch" class="sketch-image">
+                <div class="sketch-actions">
+                    <a href="{{ url_for('static', filename='generated/' + composite.image_path) }}" 
+                       download="composite_case_{{ composite.case_number }}.png" 
+                       class="btn btn-download">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="composite-details">
+            <h3><i class="fas fa-clipboard-list"></i> Description</h3>
+            <div class="description-content">
+                {{ composite.description|replace('\n', '<br>')|safe }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="composite-feedback">
+        <h3><i class="fas fa-comment-alt"></i> Feedback & Revisions</h3>
+        
+        {% if not composite.is_accurate %}
+        <div class="accuracy-feedback">
+            <form method="POST">
+                <button type="submit" name="accurate" class="btn btn-accurate">
+                    <i class="fas fa-check-circle"></i> Mark as Accurate
+                </button>
+            </form>
+            
+            <div class="revision-form">
+                <h4>Request Adjustments</h4>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="adjustment_details">What needs to be changed?</label>
+                        <textarea id="adjustment_details" name="adjustment_details" required 
+                                  placeholder="Describe the needed changes (e.g., make the nose wider, add a beard, change eye shape...)"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-revise">
+                        <i class="fas fa-redo"></i> Generate Revised Sketch
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> This composite has been verified as accurate.
+        </div>
+        {% endif %}
+        
+        {% if revisions %}
+        <div class="revision-history">
+            <h4><i class="fas fa-history"></i> Revision History</h4>
+            <div class="revision-list">
+                {% for revision in revisions %}
+                <div class="revision-item">
+                    <div class="revision-header">
+                        <strong>Revision by {{ revision.full_name }}</strong>
+                        <span class="revision-date">{{ revision.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                    </div>
+                    <div class="revision-details">
+                        <p><strong>Requested Changes:</strong> {{ revision.adjustment_text }}</p>
+                    </div>
+                    <div class="revision-image">
+                        <img src="{{ url_for('static', filename='generated/' + revision.revised_image_path) }}" 
+                             alt="Revised Sketch" class="sketch-image">
+                        <div class="revision-actions">
+                            <a href="{{ url_for('static', filename='generated/' + revision.revised_image_path) }}" 
+                               download="revision_{{ revision.id }}.png" 
+                               class="btn btn-download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

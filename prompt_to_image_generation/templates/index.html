@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h2><i class="fas fa-tachometer-alt"></i> Officer Dashboard</h2>
+    
+    <div class="dashboard-grid">
+        <div class="card quick-actions">
+            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+            <div class="action-buttons">
+                <a href="{{ url_for('create_case') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Create New Case
+                </a>
+                <a href="{{ url_for('cases') }}" class="btn btn-secondary">
+                    <i class="fas fa-folder-open"></i> View All Cases
+                </a>
+            </div>
+        </div>
+        
+        <div class="card recent-cases">
+            <h3><i class="fas fa-history"></i> Recent Cases</h3>
+            {% if recent_cases %}
+                <ul class="case-list">
+                    {% for case in recent_cases %}
+                    <li>
+                        <a href="{{ url_for('view_case', case_id=case.id) }}">
+                            <strong>Case #{{ case.case_number }}</strong> - {{ case.description[:50] }}{% if case.description|length > 50 %}...{% endif %}
+                        </a>
+                        <span class="case-date">{{ case.created_at.strftime('%Y-%m-%d') }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No recent cases found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
