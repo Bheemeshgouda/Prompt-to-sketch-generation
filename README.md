@@ -35,6 +35,7 @@ Version Control	Git & GitHub
 
 🧩 Folder Structure
 prompt-to-sketch-generation/
+```
 │
 ├── app.py                 # Main application file
 ├── models/                # AI model files and weights
@@ -43,6 +44,7 @@ prompt-to-sketch-generation/
 ├── utils/                 # Helper functions
 ├── requirements.txt       # Dependencies
 └── README.md              # Documentation
+```
 
 
 
